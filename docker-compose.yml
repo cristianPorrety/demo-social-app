@@ -1,0 +1,9 @@
+services:
+  posts:
+    build: ./posts
+    ports:
+      - 8090:8080
+  profiles:
+    build: ./profiles
+    ports:
+      - 8070:8080
