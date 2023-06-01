@@ -7,3 +7,26 @@ services:
     build: ./profiles
     ports:
       - 8070:8080
+
+  gatewayserver:
+      image: eazybytes/gatewayserver:latest
+      mem_limit: 700m
+      ports:
+        - "8072:8072"
+      depends_on:
+        - configserver
+        - eurekaserver
+        - posts
+        - profiles
+        - accounts
+      deploy:
+        restart_policy:
+          condition: on-failure
+          delay: 45s
+          max_attempts: 3
+          window: 180s
+      environment:
+        SPRING_PROFILES_ACTIVE: default
+        SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+        EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+        
