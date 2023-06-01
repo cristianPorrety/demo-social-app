@@ -8,6 +8,12 @@ services:
     ports:
       - 8070:8080
 
+  zipkin:
+      image: openzipkin/zipkin
+      mem_limit: 700m
+      ports:
+        - "9411:9411"
+
   gatewayserver:
       image: eazybytes/gatewayserver:latest
       mem_limit: 700m
