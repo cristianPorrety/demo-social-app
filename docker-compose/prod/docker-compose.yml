@@ -1,5 +1,25 @@
 services:
 
+  grafana:
+      image: "grafana/grafana:latest"
+      ports:
+        - "3000:3000"
+      environment:
+        - GF_SECURITY_ADMIN_USER=admin
+        - GF_SECURITY_ADMIN_PASSWORD=password
+      networks:
+       - backend
+      depends_on:
+        - prometheus  
+  
+  prometheus:
+     image: prom/prometheus:latest
+     ports:
+        - "9090:9090"
+     volumes:
+      - ../../posts/docker-compose/prometheus.yml:/etc/prometheus/prometheus.yml
+     networks:
+      - backend
   configserver:
     image: cristianporrety/configserver:latest
     mem_limit: 700m

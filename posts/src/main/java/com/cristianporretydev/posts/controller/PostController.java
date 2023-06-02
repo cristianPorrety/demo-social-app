@@ -16,7 +16,8 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
         @GetMapping("hello-world")
-    	public String helloWorld(){
+        @Timed(value = "helloWorld.time", description = "Time taken to return Hello World")
+    	public String helloWorld() {
            System.out.println("feign request :)");
            return "hello from identidad microservice";
     	}

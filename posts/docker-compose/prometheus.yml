@@ -1,0 +1,11 @@
+global:
+  scrape_interval:     5s # Set the scrape interval to every 5 seconds.
+scrape_configs:
+  - job_name: 'posts'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    - targets: ['posts:8080']
+  - job_name: 'profiles'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+    - targets: ['profiles:8090']

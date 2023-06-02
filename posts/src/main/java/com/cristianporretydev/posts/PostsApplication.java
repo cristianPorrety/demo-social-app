@@ -13,4 +13,9 @@ public class PostsApplication {
 		SpringApplication.run(PostsApplication.class, args);
 	}
 
+	@Bean
+    public TimedAspect timedAspect(MeterRegistry registry) {
+       return new TimedAspect(registry);
+    }
+
 }
