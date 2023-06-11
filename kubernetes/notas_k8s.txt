@@ -1,0 +1,54 @@
+para ver los configmaps(lugar donde tienes las variables de entorno de tu aplicacion)
+se utiliza el comando
+
+	kubectl get configmap
+
+y para subir tu configmap a tu cluster de kubernetes basta con usar el comando 
+
+	kubectl apply -f configmap.yml
+
+para obtener los pods, los despliegues, los servicios y el conjunto de replicas
+respectivamente se usa
+
+	kubectl get [pods, deployments, services, replicaset]
+
+si por ejemplo tenemos mas de una replica y por lo que sea queremos borrar una de ellas
+kubernetes va a querer mantener el numero de replicas que pusimos en el archivo yml
+de despliegue que le pasamos, por lo que inmediatamente creara una replica nueva
+para mantener ese numero, para borrar es
+
+	kubectl delete pod name-pod
+
+
+para aumentar el numero de replicas que queremos en un solo comando se utiliza
+
+	kubectl scale deployment deployment-name --replicas=numberReplicas
+
+para actualizar la imagem de un contenedor de un pod a la ultima se utiliza
+
+	kubectl set image deployment name-deployment logicname=new/image:fromdockerhub
+
+para ver la historia de actualizaciones de imagen o rollouts se usa
+
+	kubectl rollout history deployment deployment-name
+
+ahi te saldran unos numeros que representan en orden descendente del primer al ultimo
+rollout, lo cual puedes usar para hacer un rollback de la siguiente manera
+
+	kubectl rollout undo deployment deployment-name --to-revision=numberhistoryrollout
+
+para configurar auto escalamiento horizontal se utiliza el siguiente comando
+
+	kubectl autoscale deployment name-deployment --min=minofpod --max=maxofpod --cpu-usage=numberofusageofcpuinpercent
+
+	el --min establece el minimo de pods que hay, el max establece el maximo de 
+	pods que se escalaran y --cpu-usage servira como criterio de basado en que porcentaje
+	de uso de cpu se empezaran a necesitar mas pods, una vez este mas tranquilo el 
+	uso de cpu y este por encima del minimo, de desescalara a su minimo
+	
+para borrar y no de como la manera anterior si no de manera definitiva un deployment
+se utiliza:
+
+	kubectl delete -f configfile.yml
+
+

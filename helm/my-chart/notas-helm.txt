@@ -1,0 +1,55 @@
+helm al menos como yo lo veo es para kubernetes lo que compose
+es para docker, una herramienta que automatiza enormemente el
+trabajo de desplegar aplicaciones a kubernetes, sin este 
+tendriamks que ir a cada archivo manifest de cada servicio
+y ir aplicando a kubernetes uno por uno, como sabemos esto es
+altamente repetitivo y si tenemos una aplucacion con cientos
+de servicios a lo mejor no es lo mas indicado, entonces lo que
+tu harias con helm es tener todos tus archivos de configuracion,
+y los mismos importarlos a un unico paquete que será el encargado
+de actualizar, eliminar y desplegar tu aplicacion de kunernetes,
+tambien automatiza el escribir cada manifest, ya que cada 
+manifest en una aplicacion tienen practicamente la misma estructura
+salvo algunos valores los cuales son especificos de un servicio,
+aqui es donde helm usa un concepto llamado charts, los charts son
+un conjunto de archivos y directorios que tienen todos los recursos
+de una aplicacion para ser desplegada, dentro de los charts hay algo
+llamado los templates, los templates es la estructura general que va
+a tener cada servicio o cada manifest, y los values son estos valores
+dinamicos de cada servicio los cuales son inyectados a los templates
+
+
+para construir las dependencias de un chart se utiliza el comando:
+
+	helm dependency build
+
+para instalar el chart en el cluster se utiliza:
+
+	helm install chart-in-k8s-name localchart-name
+
+para actualizar se necesitan hacer 2 cosas, 1 actualizar el chart
+que se necesite actualizar, y luego en el chart del entorno que se 
+subira a kubernetes se usa el comando de build para reconstruir
+las dependencias y luevo se hace 
+
+	helm upgrade chart-in-k8s-name localchart-name
+
+
+para ver la historia de el chart de kubernetes se usa
+
+	helm history chart-in-k8s-name
+
+para hacer rollback a una version anterior primero se usa el comando
+de history el cual te muestra una tabla con la columna revision el
+cual es el orden de los cambios que ha tenido el chart, para hacer
+rollback se usa el comando
+
+	helm rollback chart-in-k8s-name revision
+
+para desinstalar un chart en kuberneyes se usa
+
+	helm uninstall chart-in-k8s-name
+
+para ver la lista de charts en kubernetes se usa:
+
+	helm list
